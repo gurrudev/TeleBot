@@ -8,7 +8,7 @@ const routes = () => {
         res.send("Working...");
     })
 
-    const PORT = process.env.PORT
+    const PORT = process.env.PORT || 3000
 
     route.listen(PORT, () => {
         console.log("🚀 app is running on port number :", PORT);
