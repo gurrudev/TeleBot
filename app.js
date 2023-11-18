@@ -2,11 +2,11 @@
 "use strict";
 
 const bodyParser = require("body-parser");
-const winston = require("winston");
-const { MongoDB } = require("winston-mongodb");
+// const winston = require("winston");
+// const { MongoDB } = require("winston-mongodb");
 const express = require("express");
 const { Telegraf, Markup, Context, session } = require("telegraf");
-const { Console } = require("winston/lib/winston/transports");
+// const { Console } = require("winston/lib/winston/transports");
 require("dotenv").config();
 
 const router = require('./router')
@@ -14,24 +14,24 @@ const router = require('./router')
 // const call = require('./db/dbcalling')
 
 const API_KEY = process.env.API_KEY;
-const MONGO_URL = `mongodb+srv://${process.env.MONGO_URL}@cluster0.io6lfc5.mongodb.net/telegram-logs`;
+// const MONGO_URL = `mongodb+srv://${process.env.MONGO_URL}@cluster0.io6lfc5.mongodb.net/telegram-logs`;
 
 const  bot = new Telegraf(API_KEY);
 
 //  To save the logs in database
-const logger = winston.createLogger({
-    level: "info",
-    //format: winston.format.json(),
-    transports: [
-        new MongoDB({
-            db: MONGO_URL,
-            options: {
-                useUnifiedTopology: true,
-                useNewUrlParser: true,
-            },
-        }),
-    ],
-});
+// const logger = winston.createLogger({
+//     level: "info",
+//     //format: winston.format.json(),
+//     transports: [
+//         new MongoDB({
+//             db: MONGO_URL,
+//             options: {
+//                 useUnifiedTopology: true,
+//                 useNewUrlParser: true,
+//             },
+//         }),
+//     ],
+// });
 
 const app = express();
 app.use(bodyParser.json());
@@ -64,7 +64,7 @@ bot.command("/start", async (ctx) => {
     let sendContact = "Please /share_your_contact number to check your authenticity";
 
     await bot.telegram.sendMessage(ctx.chat.id, sendContact);
-    logger.info(bot_start_resp_logs);
+    // logger.info(bot_start_resp_logs);
     console.log(ctx.message);
     console.log(bot_start_resp_logs);
     // console.log(ctx.update.message)
@@ -205,8 +205,8 @@ bot.hears("/image", async (ctx, next) => {
     await bot.telegram.sendPhoto(ctx.chat.id, img_link);
     let bot_img_resp_logs ="bot_reply_to_message_id: " +ctx.message.message_id +"\n{ \n img_msg: " +img_msg +"\n img_link: " +img_link +" \n \n}";
 
-    logger.info(ctx.message);
-    logger.info(bot_img_resp_logs);
+    // logger.info(ctx.message);
+    // logger.info(bot_img_resp_logs);
     console.log(ctx.message);
     console.log(bot_img_resp_logs);
 });
@@ -418,8 +418,8 @@ bot.on("text", async (ctx) => {
         await bot.telegram.sendMessage(ctx.chat.id, welcome_mgs2);
         let bot_text_resp_logs ="bot_reply_to_message_id: " + ctx.message.message_id + "\n{ \n welcome_msg: " + welcome_mgs + "\n welcome_msg2: " + welcome_mgs2 + " \n \n}";
        
-        logger.info(ctx.message);
-        logger.info(bot_text_resp_logs);
+        // logger.info(ctx.message);
+        // logger.info(bot_text_resp_logs);
         console.log(ctx.message);
         console.log(bot_text_resp_logs);
     } else if (msg_ == "bye" || msg_ == "byee" || msg_ == "by") {
@@ -427,8 +427,8 @@ bot.on("text", async (ctx) => {
         await bot.telegram.sendMessage(ctx.chat.id, bye_msg);
         let bot_text_resp_logs = "bot_reply_to_message_id: " + ctx.message.message_id + "\n{ \n bye_msg: " + bye_msg + " \n \n}";
 
-        logger.info(ctx.message);
-        logger.info(bot_text_resp_logs);
+        // logger.info(ctx.message);
+        // logger.info(bot_text_resp_logs);
         console.log(ctx.message);
         console.log(bot_text_resp_logs);
     } else if (msg_ == '😚') {
@@ -436,8 +436,8 @@ bot.on("text", async (ctx) => {
         await bot.telegram.sendMessage(ctx.chat.id, _msg);
         let bot_text_resp_logs = "bot_reply_to_message_id: " + ctx.message.message_id + "\n{ \n _msg: " + _msg + " \n \n}";
 
-        logger.info(ctx.message);
-        logger.info(bot_text_resp_logs);
+        // logger.info(ctx.message);
+        // logger.info(bot_text_resp_logs);
         console.log(ctx.message);
         console.log(bot_text_resp_logs);
     } else {
