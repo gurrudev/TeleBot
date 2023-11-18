@@ -14,7 +14,7 @@ const router = require('./router')
 // const call = require('./db/dbcalling')
 
 const API_KEY = process.env.API_KEY;
-const MONGO_URL = process.env.MONGO_URL;
+const MONGO_URL = `mongodb+srv://${process.env.MONGO_URL}@cluster0.io6lfc5.mongodb.net/telegram-logs`;
 
 const  bot = new Telegraf(API_KEY);
 
