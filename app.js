@@ -2,36 +2,18 @@
 "use strict";
 
 const bodyParser = require("body-parser");
-// const winston = require("winston");
-// const { MongoDB } = require("winston-mongodb");
+
 const express = require("express");
 const { Telegraf, Markup, Context, session } = require("telegraf");
-// const { Console } = require("winston/lib/winston/transports");
-require("dotenv").config();
 
+require("dotenv").config();
+const responses = require('./responses')
 const router = require('./router')
 
-// const call = require('./db/dbcalling')
-
 const API_KEY = process.env.API_KEY;
-// const MONGO_URL = `mongodb+srv://${process.env.MONGO_URL}@cluster0.io6lfc5.mongodb.net/telegram-logs`;
 
 const  bot = new Telegraf(API_KEY);
 
-//  To save the logs in database
-// const logger = winston.createLogger({
-//     level: "info",
-//     //format: winston.format.json(),
-//     transports: [
-//         new MongoDB({
-//             db: MONGO_URL,
-//             options: {
-//                 useUnifiedTopology: true,
-//                 useNewUrlParser: true,
-//             },
-//         }),
-//     ],
-// });
 
 const app = express();
 app.use(bodyParser.json());
@@ -42,7 +24,8 @@ router.routes();
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //method for invoking start command
-bot.command("/start", async (ctx) => {
+
+bot.hears("/start", async (ctx) => {
 
     let first_name = ctx.message.chat.first_name
     let last_name = ctx.message.chat.last_name
@@ -404,55 +387,25 @@ bot.action('cat', async(ctx) => {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-//The if else part
-bot.on("text", async (ctx) => {
-    // console.log(ctx.from)
-    const msg_ = ctx.message.text.toLowerCase();
-    
-
-    
-    if (msg_ == "hey" || msg_ == "hello" || msg_ == "hi" || msg_ == "👋" ) {
-        let welcome_mgs = "Hi, there!";
-        let welcome_mgs2 = "If you want to start please click on /start";
-        await bot.telegram.sendMessage(ctx.chat.id, welcome_mgs);
-        await bot.telegram.sendMessage(ctx.chat.id, welcome_mgs2);
-        let bot_text_resp_logs ="bot_reply_to_message_id: " + ctx.message.message_id + "\n{ \n welcome_msg: " + welcome_mgs + "\n welcome_msg2: " + welcome_mgs2 + " \n \n}";
-       
-        // logger.info(ctx.message);
-        // logger.info(bot_text_resp_logs);
-        console.log(ctx.message);
-        console.log(bot_text_resp_logs);
-    } else if (msg_ == "bye" || msg_ == "byee" || msg_ == "by") {
-        let bye_msg = "Bye! have a nice day!";
-        await bot.telegram.sendMessage(ctx.chat.id, bye_msg);
-        let bot_text_resp_logs = "bot_reply_to_message_id: " + ctx.message.message_id + "\n{ \n bye_msg: " + bye_msg + " \n \n}";
-
-        // logger.info(ctx.message);
-        // logger.info(bot_text_resp_logs);
-        console.log(ctx.message);
-        console.log(bot_text_resp_logs);
-    } else if (msg_ == '😚') {
-        let _msg = "Thank you for your love";
-        await bot.telegram.sendMessage(ctx.chat.id, _msg);
-        let bot_text_resp_logs = "bot_reply_to_message_id: " + ctx.message.message_id + "\n{ \n _msg: " + _msg + " \n \n}";
-
-        // logger.info(ctx.message);
-        // logger.info(bot_text_resp_logs);
-        console.log(ctx.message);
-        console.log(bot_text_resp_logs);
-    } else {
-        
-
-        try {
-            
-                await bot.telegram.sendMessage(ctx.chat.id, `envalid key word`);
-           
-        } catch (err) {
-            console.log(err)
-        }
+// Middleware for handling text messages
+bot.on("text", (ctx) => {
+    const message = ctx.message.text.toLowerCase();
+  
+    // Check if any keyword matches the message
+    for (const keyword in responses) {
+      if (message.includes(keyword)) {
+        const possibleReplies = responses[keyword];
+        const randomIndex = Math.floor(Math.random() * possibleReplies.length);
+        const randomResponse = possibleReplies[randomIndex];
+  
+        ctx.reply(randomResponse);
+        return;
+      }
     }
-});
-
+  
+    // If no keyword matches, respond with a default message
+    ctx.reply("I'm sorry, I didn't understand that.");
+  });
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //method to start the bot
