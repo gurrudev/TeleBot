@@ -57,7 +57,7 @@ bot.start((ctx) => {
 ///////////////////////////////// Project Section ///////////////////////////////////////////////////////
 
 bot.hears("/projects", async (ctx) => {
-    console.log(ctx.message);
+    // console.log(ctx.message);
     let animalMessage = `*👨‍💻 Here are some of my projects 🛠️*\n\nFeel free to ask for more details about any specific project by mentioning its name!`;
     //ctx.deleteMessage();
     await bot.telegram.sendMessage(ctx.chat.id, animalMessage, {
@@ -70,36 +70,36 @@ bot.hears("/projects", async (ctx) => {
                     },
                     {
                         text: "Netflix Clone",
-                        callback_data: "cat",
+                        callback_data: "netflix_clone",
                     },
                     {
                         text: "Whatsapp Bot",
-                        callback_data: "elephent",
+                        callback_data: "whatsapp_bot",
                     },
                 ],
                 [
                     {
                         text: "Warehouse Inventory",
-                        callback_data: "dragon",
+                        callback_data: "warehouse_inventory",
                     },
                 ],
                 [
                     {
                         text: "Telegram Bot",
-                        callback_data: "horse",
+                        callback_data: "telegram_bot",
                     },
                     {
                         text: "Hope Harbor",
-                        callback_data: "tiger",
+                        callback_data: "hope_harbor",
                     },
                     {
                         text: "Blog Website",
-                        callback_data: "wolf",
+                        callback_data: "blog_site",
                     },
                 ],
             ],
         },
-        // reply_to_message_id: ctx.message.message_id,
+        reply_to_message_id: ctx.message.message_id,
         parse_mode: 'Markdown'
     });
 });
@@ -116,12 +116,72 @@ bot.action("crypto_tracker", async (ctx) => {
     ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
 });
 
-// bot.action("dog", async (ctx) => {
-//     let img_link =
-//         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXb8yPHcfghL4AazIhs0EQv7oqhMwwDITj_NCQHkeKRzfcH3bhA_gEyBu6sNxGIHNHXI&usqp=CAU";
+bot.action("netflix_clone", async (ctx) => {
+    
+    // Data for the template
+    const templateData = projectTemplateDetails.netflix_clone
 
-//     await bot.telegram.sendPhoto(ctx.chat.id, img_link);
-// });
+    // Generate message using the template
+    const message = generateProjectTemplate(templateData)
+
+    ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
+});
+
+bot.action("whatsapp_bot", async (ctx) => {
+    
+    // Data for the template
+    const templateData = projectTemplateDetails.whatsapp_bot
+
+    // Generate message using the template
+    const message = generateProjectTemplate(templateData)
+
+    ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
+});
+
+bot.action("warehouse_inventory", async (ctx) => {
+    
+    // Data for the template
+    const templateData = projectTemplateDetails.warehouse_inventory
+
+    // Generate message using the template
+    const message = generateProjectTemplate(templateData)
+
+    ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
+});
+
+bot.action("telegram_bot", async (ctx) => {
+    
+    // Data for the template
+    const templateData = projectTemplateDetails.telegram_bot
+
+    // Generate message using the template
+    const message = generateProjectTemplate(templateData)
+
+    ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
+});
+
+bot.action("hope_harbor", async (ctx) => {
+    
+    // Data for the template
+    const templateData = projectTemplateDetails.hope_harbor
+
+    // Generate message using the template
+    const message = generateProjectTemplate(templateData)
+
+    ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
+});
+
+bot.action("blog_site", async (ctx) => {
+    
+    // Data for the template
+    const templateData = projectTemplateDetails.blog_site
+
+    // Generate message using the template
+    const message = generateProjectTemplate(templateData)
+
+    ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
+});
+
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
