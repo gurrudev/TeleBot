@@ -4,9 +4,9 @@ const express = require("express");
 const { Telegraf } = require("telegraf");
 
 require("dotenv").config();
-const responses = require("./responses");
+const responses = require("./helper/responses");
 const router = require("./router");
-
+const generateProjectTemplate = require('./helper/project_template')
 const API_KEY = process.env.API_KEY;
 
 const bot = new Telegraf(API_KEY);
@@ -57,7 +57,7 @@ bot.start((ctx) => {
 
 bot.hears("/projects", async (ctx) => {
     console.log(ctx.message);
-    let animalMessage = `Here are some of my projects:`;
+    let animalMessage = `*👨‍💻 Here are some of my projects 🛠️*\n\nFeel free to ask for more details about any specific project by mentioning its name!`;
     //ctx.deleteMessage();
     await bot.telegram.sendMessage(ctx.chat.id, animalMessage, {
         reply_markup: {
@@ -65,7 +65,7 @@ bot.hears("/projects", async (ctx) => {
                 [
                     {
                         text: "Crypto Tracker",
-                        callback_data: "dog",
+                        callback_data: "crypto_tracker",
                     },
                     {
                         text: "Netflix Clone",
@@ -98,16 +98,26 @@ bot.hears("/projects", async (ctx) => {
                 ],
             ],
         },
+        // reply_to_message_id: ctx.message.message_id,
+        parse_mode: 'Markdown'
     });
 });
 
 
-bot.action("dog", async (ctx) => {
+bot.action("crypto_tracker", async (ctx) => {
     let img_link =
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXb8yPHcfghL4AazIhs0EQv7oqhMwwDITj_NCQHkeKRzfcH3bhA_gEyBu6sNxGIHNHXI&usqp=CAU";
 
-    await bot.telegram.sendPhoto(ctx.chat.id, img_link);
+
+    await bot.telegram.sendMessage(ctx.chat.id, img_link);
 });
+
+// bot.action("dog", async (ctx) => {
+//     let img_link =
+//         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXb8yPHcfghL4AazIhs0EQv7oqhMwwDITj_NCQHkeKRzfcH3bhA_gEyBu6sNxGIHNHXI&usqp=CAU";
+
+//     await bot.telegram.sendPhoto(ctx.chat.id, img_link);
+// });
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -344,12 +354,12 @@ bot.hears("/help", async (ctx) => {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //method that returns image of a dog
-bot.action("dog", async (ctx) => {
-    let img_link =
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXb8yPHcfghL4AazIhs0EQv7oqhMwwDITj_NCQHkeKRzfcH3bhA_gEyBu6sNxGIHNHXI&usqp=CAU";
+// bot.action("dog", async (ctx) => {
+//     let img_link =
+//         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXb8yPHcfghL4AazIhs0EQv7oqhMwwDITj_NCQHkeKRzfcH3bhA_gEyBu6sNxGIHNHXI&usqp=CAU";
 
-    await bot.telegram.sendPhoto(ctx.chat.id, img_link);
-});
+//     await bot.telegram.sendPhoto(ctx.chat.id, img_link);
+// });
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -374,9 +384,7 @@ bot.on("text", (ctx) => {
             const randomIndex = Math.floor(Math.random() * possibleReplies.length);
             const randomResponse = possibleReplies[randomIndex];
 
-            ctx.reply(randomResponse, {
-                reply_to_message_id: ctx.message.message_id,
-            });
+            ctx.reply(randomResponse);
             return;
         }
     }
