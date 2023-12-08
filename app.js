@@ -1,26 +1,23 @@
 const bodyParser = require("body-parser");
-
 const express = require("express");
 const { Telegraf } = require("telegraf");
-
 require("dotenv").config();
 const responses = require("./helper/responses");
 const router = require("./router");
-const generateProjectTemplate = require('./helper/projectTemplate')
+const generateProjectTemplate = require('./templates/projectTemplate')
 const projectTemplateDetails = require('./helper/projectDetails')
-const API_KEY = process.env.API_KEY;
 
-const bot = new Telegraf(API_KEY);
+const bot = new Telegraf(process.env.API_KEY);
 
 const app = express();
+
 app.use(bodyParser.json());
 
 router.routes();
 
-//////////////////////////////////////////////////////////////////////
-////////////////    Method for invoking start command   //////////////
-//////////////////////////////////////////////////////////////////////
-
+/////////////////////////////////////////////////////////////////////////////
+////////////////    Method for invoking start command  - Start //////////////
+/////////////////////////////////////////////////////////////////////////////
 bot.start((ctx) => {
 
     let start_msg1 = `👋 Hey I'm *ASHUTOSH!* 🤖\n\nI'm here to help you explore my portfolio and answer any questions you might have about my work and skills. Feel free to ask about my projects, skills, contact information, or anything else you'd like to know.`
@@ -30,32 +27,12 @@ bot.start((ctx) => {
     console.log(ctx.message);
 });
 
-////////////////////////////////////////////////////////////////////////////////////////
+////////////////    Method for invoking start command  - End //////////////
 
-//method for requesting user's phone number
-// bot.hears("/share_your_contact", async (ctx) => {
 
-//     await bot.telegram.sendMessage(ctx.chat.id, {
-//         text: "Please give us your phone number",
-//         reply_markup: {
-//             keyboard: [
-//                 [
-//                     {
-//                         text: "Share Phone Number",
-//                         request_contact: true,
-//                         remove_keyboard: true,
-//                     },
-//                 ],
-//             ],
-//             resize_keyboard: true,
-//             one_time_keyboard: true,
-//             remove_keyboard: true,
-//         },
-//     });
-// });
-
-///////////////////////////////// Project Section ///////////////////////////////////////////////////////
-
+///////////////////////////////////////////////////////////////////////////////////
+/////////////////////    Projects Section  - Start  ///////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
 bot.hears("/projects", async (ctx) => {
     // console.log(ctx.message);
     let animalMessage = `*👨‍💻 Here are some of my projects 🛠️*\n\nFeel free to ask for more details about any specific project by mentioning its name!`;
@@ -103,7 +80,6 @@ bot.hears("/projects", async (ctx) => {
         parse_mode: 'Markdown'
     });
 });
-
 
 bot.action("crypto_tracker", async (ctx) => {
     
@@ -182,8 +158,7 @@ bot.action("blog_site", async (ctx) => {
     ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
 });
 
-
-////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////    Projects Section  - End ///////////////////////////////
 
 bot.on("contact", async (ctx) => {
 
