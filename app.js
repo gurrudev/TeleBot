@@ -16,14 +16,14 @@ app.use(bodyParser.json());
 
 router.routes();
 
-////////////////////////////////////////////////////////////////////////////////////////
-
-//method for invoking start command
+//////////////////////////////////////////////////////////////////////
+////////////////    Method for invoking start command   //////////////
+//////////////////////////////////////////////////////////////////////
 
 bot.start((ctx) => {
 
-    let start_msg1 = `👋 Hey I'm *ASHUTOSH!* 🤖\n\nI'm here to help you explore my portfolio and answer any questions you might have about my work and skills. Feel free to ask about my projects, skills, contact information, or anything else you'd like to know.` 
-        +`\n\n_To get started,_ \n\nyou can try commands like... \n\n/projects - _Know about my projects._ \n/skills - _Know about my skills._ \n/resume - _Download my resume._ \n/contact - _To contact me._ \n\nIf you need assistance, just type _'help'_ or click on /help. Enjoy exploring!`;
+    let start_msg1 = `👋 Hey I'm *ASHUTOSH!* 🤖\n\nI'm here to help you explore my portfolio and answer any questions you might have about my work and skills. Feel free to ask about my projects, skills, contact information, or anything else you'd like to know.`
+        + `\n\n_To get started,_ \n\nyou can try commands like... \n\n/projects - _Know about my projects._ \n/skills - _Know about my skills._ \n/resume - _Download my resume._ \n/contact - _To contact me._ \n\nIf you need assistance, just type _'help'_ or click on /help. Enjoy exploring!`;
 
     bot.telegram.sendMessage(ctx.chat.id, start_msg1, { parse_mode: 'Markdown' });
     console.log(ctx.message);
@@ -32,43 +32,86 @@ bot.start((ctx) => {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //method for requesting user's phone number
-bot.hears("/share_your_contact", async (ctx) => {
+// bot.hears("/share_your_contact", async (ctx) => {
 
-    await bot.telegram.sendMessage(ctx.chat.id, {
-        text: "Please give us your phone number",
+//     await bot.telegram.sendMessage(ctx.chat.id, {
+//         text: "Please give us your phone number",
+//         reply_markup: {
+//             keyboard: [
+//                 [
+//                     {
+//                         text: "Share Phone Number",
+//                         request_contact: true,
+//                         remove_keyboard: true,
+//                     },
+//                 ],
+//             ],
+//             resize_keyboard: true,
+//             one_time_keyboard: true,
+//             remove_keyboard: true,
+//         },
+//     });
+// });
+
+///////////////////////////////// Project Section ///////////////////////////////////////////////////////
+
+bot.hears("/projects", async (ctx) => {
+    console.log(ctx.message);
+    let animalMessage = `Here are some of my projects:`;
+    //ctx.deleteMessage();
+    await bot.telegram.sendMessage(ctx.chat.id, animalMessage, {
         reply_markup: {
-            keyboard: [
+            inline_keyboard: [
                 [
                     {
-                        text: "Share Phone Number",
-                        request_contact: true,
-                        remove_keyboard: true,
+                        text: "Crypto Tracker",
+                        callback_data: "dog",
+                    },
+                    {
+                        text: "Netflix Clone",
+                        callback_data: "cat",
+                    },
+                    {
+                        text: "Whatsapp Bot",
+                        callback_data: "elephent",
+                    },
+                ],
+                [
+                    {
+                        text: "Warehouse Inventory",
+                        callback_data: "dragon",
+                    },
+                ],
+                [
+                    {
+                        text: "Telegram Bot",
+                        callback_data: "horse",
+                    },
+                    {
+                        text: "Hope Harbor",
+                        callback_data: "tiger",
+                    },
+                    {
+                        text: "Blog Website",
+                        callback_data: "wolf",
                     },
                 ],
             ],
-            resize_keyboard: true,
-            one_time_keyboard: true,
-            remove_keyboard: true,
         },
     });
+});
+
+
+bot.action("dog", async (ctx) => {
+    let img_link =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXb8yPHcfghL4AazIhs0EQv7oqhMwwDITj_NCQHkeKRzfcH3bhA_gEyBu6sNxGIHNHXI&usqp=CAU";
+
+    await bot.telegram.sendPhoto(ctx.chat.id, img_link);
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 bot.on("contact", async (ctx) => {
-    //    set a timeout for 1 minute
-    //    const timeout = 1 * 60 * 1000;
-
-    //     const timer = setTimeout(() => {
-    //           timeover=1;
-
-    //     }, timeout);
-
-    //     if (timeover==1) {
-
-    //         ctx.reply("Your session has expired. Please start a new session using the /start command.");
-    //         return;
-    //     }
 
     const phoneNumber = ctx.message.contact.phone_number;
     await ctx.reply(`Thanks for sharing your phone number! ${phoneNumber}`);
@@ -114,7 +157,7 @@ bot.hears("/document", async (ctx, next) => {
 
 //method for sending image
 bot.hears("/image", async (ctx, next) => {
-    
+
     let img_msg = "This is for image";
     let img_link =
         "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
@@ -137,7 +180,7 @@ bot.hears("/image", async (ctx, next) => {
 
 //method for sending location
 bot.hears("/location", async (ctx, next) => {
-    
+
     let location_msg = "Office Location";
     let latitude = 19.11650922426617;
     let longitude = 72.85741558019201;
@@ -170,7 +213,7 @@ bot.hears("/location", async (ctx, next) => {
 //     await bot.telegram.sendVideo(ctx.chat.id, vdo_link);
 //     let bot_vdo_resp_logs ="bot_reply_to_message_id: " + ctx.message.message_id + "\n{ \n vdo_msg: " + vdo_msg + "\n vdo_link: " + vdo_link + " \n \n}";
 
-    
+
 //     console.log(ctx.message);
 //     console.log(bot_vdo_resp_logs);
 // });
@@ -217,7 +260,7 @@ bot.hears("/help", async (ctx) => {
         },
     });
 
-   
+
 
 
     console.log(ctx.message);
@@ -252,51 +295,51 @@ bot.hears("/help", async (ctx) => {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-bot.hears("/animals", async (ctx) => {
-    console.log(ctx.message);
-    let animalMessage = `great, here are pictures of animals you would love`;
-    //ctx.deleteMessage();
-    await bot.telegram.sendMessage(ctx.chat.id, animalMessage, {
-        reply_markup: {
-            inline_keyboard: [
-                [
-                    {
-                        text: "Dog",
-                        callback_data: "dog",
-                    },
-                    {
-                        text: "Cat",
-                        callback_data: "cat",
-                    },
-                    {
-                        text: "Elephent",
-                        callback_data: "elephent",
-                    },
-                ],
-                [
-                    {
-                        text: "Dragon",
-                        callback_data: "dragon",
-                    },
-                ],
-                [
-                    {
-                        text: "Horse",
-                        callback_data: "horse",
-                    },
-                    {
-                        text: "Tiger",
-                        callback_data: "tiger",
-                    },
-                    {
-                        text: "Wolf",
-                        callback_data: "wolf",
-                    },
-                ],
-            ],
-        },
-    });
-});
+// bot.hears("/animals", async (ctx) => {
+//     console.log(ctx.message);
+//     let animalMessage = `great, here are pictures of animals you would love`;
+//     //ctx.deleteMessage();
+//     await bot.telegram.sendMessage(ctx.chat.id, animalMessage, {
+//         reply_markup: {
+//             inline_keyboard: [
+//                 [
+//                     {
+//                         text: "Dog",
+//                         callback_data: "dog",
+//                     },
+//                     {
+//                         text: "Cat",
+//                         callback_data: "cat",
+//                     },
+//                     {
+//                         text: "Elephent",
+//                         callback_data: "elephent",
+//                     },
+//                 ],
+//                 [
+//                     {
+//                         text: "Dragon",
+//                         callback_data: "dragon",
+//                     },
+//                 ],
+//                 [
+//                     {
+//                         text: "Horse",
+//                         callback_data: "horse",
+//                     },
+//                     {
+//                         text: "Tiger",
+//                         callback_data: "tiger",
+//                     },
+//                     {
+//                         text: "Wolf",
+//                         callback_data: "wolf",
+//                     },
+//                 ],
+//             ],
+//         },
+//     });
+// });
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -331,13 +374,17 @@ bot.on("text", (ctx) => {
             const randomIndex = Math.floor(Math.random() * possibleReplies.length);
             const randomResponse = possibleReplies[randomIndex];
 
-            ctx.reply(randomResponse);
+            ctx.reply(randomResponse, {
+                reply_to_message_id: ctx.message.message_id,
+            });
             return;
         }
     }
 
     // If no keyword matches, respond with a default message
-    ctx.reply("I'm sorry, I didn't understand that.");
+    ctx.reply("I'm sorry, I didn't understand that.",{
+        reply_to_message_id: ctx.message.message_id,
+    });
 });
 ////////////////////////////////////////////////////////////////////////////////////////
 
