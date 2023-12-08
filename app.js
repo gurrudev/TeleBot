@@ -6,7 +6,8 @@ const { Telegraf } = require("telegraf");
 require("dotenv").config();
 const responses = require("./helper/responses");
 const router = require("./router");
-const generateProjectTemplate = require('./helper/project_template')
+const generateProjectTemplate = require('./helper/projectTemplate')
+const projectTemplateDetails = require('./helper/projectDetails')
 const API_KEY = process.env.API_KEY;
 
 const bot = new Telegraf(API_KEY);
@@ -107,12 +108,7 @@ bot.hears("/projects", async (ctx) => {
 bot.action("crypto_tracker", async (ctx) => {
     
     // Data for the template
-    const templateData = {
-        title: 'Crypto Tracker',
-        description: 'The Cryptocurrency Tracker project is a powerful and user-friendly web application designed to provide real-time insights and updates on the dynamic world of cryptocurrencies. ',
-        command: 'help',
-        action: 'see available commands'
-    };
+    const templateData = projectTemplateDetails.crypto_tracker
 
     // Generate message using the template
     const message = generateProjectTemplate(templateData)
