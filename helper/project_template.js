@@ -2,8 +2,8 @@
 const generateProjectTemplate = (data) => {
     return `
         *${data.title}*
-        \n\n_${data.description}_
-        \n\nUse /${data.command} to ${data.action}.
+        \n\nDescription:\n_${data.description}_
+        \n\nTeck Stack:\n${data.command} to ${data.action}.
     `;
 }
 

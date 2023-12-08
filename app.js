@@ -105,11 +105,19 @@ bot.hears("/projects", async (ctx) => {
 
 
 bot.action("crypto_tracker", async (ctx) => {
-    let img_link =
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXb8yPHcfghL4AazIhs0EQv7oqhMwwDITj_NCQHkeKRzfcH3bhA_gEyBu6sNxGIHNHXI&usqp=CAU";
+    
+    // Data for the template
+    const templateData = {
+        title: 'Crypto Tracker',
+        description: 'The Cryptocurrency Tracker project is a powerful and user-friendly web application designed to provide real-time insights and updates on the dynamic world of cryptocurrencies. ',
+        command: 'help',
+        action: 'see available commands'
+    };
 
+    // Generate message using the template
+    const message = generateProjectTemplate(templateData)
 
-    await bot.telegram.sendMessage(ctx.chat.id, img_link);
+    ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
 });
 
 // bot.action("dog", async (ctx) => {
@@ -390,7 +398,7 @@ bot.on("text", (ctx) => {
     }
 
     // If no keyword matches, respond with a default message
-    ctx.reply("I'm sorry, I didn't understand that.",{
+    ctx.reply("I'm sorry, I didn't understand that.", {
         reply_to_message_id: ctx.message.message_id,
     });
 });
