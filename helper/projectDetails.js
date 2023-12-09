@@ -8,6 +8,7 @@ const projectTemplateDetails = {
         teck_stack: 'React, JavaScript, HTML, CSS, Material UI ',
         live_link: 'https://cryptotrackerno1.netlify.app ',
         source_code_link: 'https://github.com/gurrudev/CryptoTracker.git ',
+        img_link: 'http://surl.li/obusm'
     },
     netflix_clone: {
         title: '📺 Netflix Clone',
