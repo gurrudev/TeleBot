@@ -8,7 +8,7 @@ const projectTemplateDetails = {
         teck_stack: 'React, JavaScript, HTML, CSS, Material UI ',
         live_link: 'https://cryptotrackerno1.netlify.app ',
         source_code_link: 'https://github.com/gurrudev/CryptoTracker.git ',
-        img_link: 'http://surl.li/obusm'
+        img_link: 'https://ashutosh-pawar.me/static/media/cryptoTracker.0154b0cfcdc4d4c0fcba.png'
     },
     netflix_clone: {
         title: '📺 Netflix Clone',
@@ -16,6 +16,7 @@ const projectTemplateDetails = {
         teck_stack: 'React, JavaScript, HTML, CSS, Firebase ',
         live_link: 'https://neflix-30554.web.app ',
         source_code_link: 'https://github.com/gurrudev/Netflix-Clone.git',
+        img_link: 'https://ashutosh-pawar.me/static/media/netflix3.982462490c2fbcec252a.png'
     },
     whatsapp_bot: {
         title: '🤖 Whatsapp Bot',
@@ -23,6 +24,7 @@ const projectTemplateDetails = {
         teck_stack: 'NodeJs, Express, JavaScript, HTML, CSS',
         live_link: 'https://cryptotrackerno1.netlify.app ',
         source_code_link: 'https://github.com/gurrudev/CryptoTracker.git ',
+        img_link: 'https://ashutosh-pawar.me/static/media/chatbot-for-whatsapp-01.1faf6984e3fa0686e10a.jpg'
     },
     warehouse_inventory: {
         title: '🏭 Warehouse Inventory',
@@ -30,6 +32,7 @@ const projectTemplateDetails = {
         teck_stack: 'PHP, JavaScript, HTML, CSS, Bootstrap, JQuery, MySQL ',
         live_link: 'https://warehousejetha.000webhostapp.com ',
         source_code_link: 'https://github.com/gurrudev/inventory-management-system.git ',
+        img_link: 'https://ashutosh-pawar.me/static/media/warehouse-sc.7eee8cb0cb65e9ca1875.png'
     },
     telegram_bot: {
         title: '🤖 Telegram Bot',
@@ -37,6 +40,7 @@ const projectTemplateDetails = {
         teck_stack: 'NodeJs, Express, JavaScript, HTML, CSS',
         live_link: '@ASHUTOSHPAWARBot',
         source_code_link: 'https://github.com/gurrudev/TeleBot.git',
+        img_link: 'https://hamon.in/wp-content/uploads/2023/08/Create-a-Telegram-Bot-1.png'
     },
     hope_harbor: {
         title: '🧑‍💻 Hope Harbor',
@@ -44,6 +48,7 @@ const projectTemplateDetails = {
         teck_stack: 'React, JavaScript, HTML, CSS, Tailwind CSS, Vite ',
         live_link: 'https://hopeharbor.netlify.app  ',
         source_code_link: 'https://github.com/gurrudev/HopeHarbor.git ',
+        img_link: 'https://ashutosh-pawar.me/static/media/HopeHarbor.3feb7abb3255855109d7.png'
     },
     blog_site: {
         title: '🏞️ Blog Hub',
@@ -51,6 +56,7 @@ const projectTemplateDetails = {
         teck_stack: 'React, JavaScript, HTML, CSS, Material UI ',
         live_link: 'bloghubsite.netlify.app',
         source_code_link: 'https://github.com/gurrudev/Blog-Hub.git',
+        img_link: 'https://github.com/gurrudev/Blog-Hub/assets/80522156/5e6be869-e860-41bc-a7d7-bd2a818582d5'
     },
 }
 

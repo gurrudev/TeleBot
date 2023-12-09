@@ -101,7 +101,7 @@ bot.action("netflix_clone", async (ctx) => {
     // Generate message using the template
     const message = generateProjectTemplate(templateData)
 
-    ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
+    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
 });
 
 bot.action("whatsapp_bot", async (ctx) => {
@@ -112,7 +112,7 @@ bot.action("whatsapp_bot", async (ctx) => {
     // Generate message using the template
     const message = generateProjectTemplate(templateData)
 
-    ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
+    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
 });
 
 bot.action("warehouse_inventory", async (ctx) => {
@@ -123,7 +123,7 @@ bot.action("warehouse_inventory", async (ctx) => {
     // Generate message using the template
     const message = generateProjectTemplate(templateData)
 
-    ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
+    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
 });
 
 bot.action("telegram_bot", async (ctx) => {
@@ -134,8 +134,8 @@ bot.action("telegram_bot", async (ctx) => {
     // Generate message using the template
     const message = generateProjectTemplate(templateData)
 
-    ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
-});
+    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
+})
 
 bot.action("hope_harbor", async (ctx) => {
     
@@ -145,7 +145,7 @@ bot.action("hope_harbor", async (ctx) => {
     // Generate message using the template
     const message = generateProjectTemplate(templateData)
 
-    ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
+    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
 });
 
 bot.action("blog_site", async (ctx) => {
@@ -156,7 +156,7 @@ bot.action("blog_site", async (ctx) => {
     // Generate message using the template
     const message = generateProjectTemplate(templateData)
 
-    ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
+    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
 });
 
 /////////////////////    Projects Section  - End ///////////////////////////////
