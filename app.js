@@ -35,9 +35,9 @@ bot.start((ctx) => {
 ///////////////////////////////////////////////////////////////////////////////////
 bot.hears("/projects", async (ctx) => {
     // console.log(ctx.message);
-    let animalMessage = `*👨‍💻 Here are some of my projects 🛠️*\n\nFeel free to ask for more details about any specific project by mentioning its name!`;
+    let message = `*👨‍💻 Here are some of my projects 🛠️*\n\nFeel free to ask for more details about any specific project by mentioning its name!`;
     //ctx.deleteMessage();
-    await bot.telegram.sendMessage(ctx.chat.id, animalMessage, {
+    await bot.telegram.sendMessage(ctx.chat.id, message, {
         reply_markup: {
             inline_keyboard: [
                 [
@@ -82,7 +82,7 @@ bot.hears("/projects", async (ctx) => {
 });
 
 bot.action("crypto_tracker", async (ctx) => {
-    
+
     // Data for the template
     const templateData = projectTemplateDetails.crypto_tracker
 
@@ -94,7 +94,7 @@ bot.action("crypto_tracker", async (ctx) => {
 });
 
 bot.action("netflix_clone", async (ctx) => {
-    
+
     // Data for the template
     const templateData = projectTemplateDetails.netflix_clone
 
@@ -105,7 +105,7 @@ bot.action("netflix_clone", async (ctx) => {
 });
 
 bot.action("whatsapp_bot", async (ctx) => {
-    
+
     // Data for the template
     const templateData = projectTemplateDetails.whatsapp_bot
 
@@ -116,7 +116,7 @@ bot.action("whatsapp_bot", async (ctx) => {
 });
 
 bot.action("warehouse_inventory", async (ctx) => {
-    
+
     // Data for the template
     const templateData = projectTemplateDetails.warehouse_inventory
 
@@ -127,7 +127,7 @@ bot.action("warehouse_inventory", async (ctx) => {
 });
 
 bot.action("telegram_bot", async (ctx) => {
-    
+
     // Data for the template
     const templateData = projectTemplateDetails.telegram_bot
 
@@ -138,7 +138,7 @@ bot.action("telegram_bot", async (ctx) => {
 })
 
 bot.action("hope_harbor", async (ctx) => {
-    
+
     // Data for the template
     const templateData = projectTemplateDetails.hope_harbor
 
@@ -149,7 +149,7 @@ bot.action("hope_harbor", async (ctx) => {
 });
 
 bot.action("blog_site", async (ctx) => {
-    
+
     // Data for the template
     const templateData = projectTemplateDetails.blog_site
 
@@ -159,7 +159,50 @@ bot.action("blog_site", async (ctx) => {
     ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
 });
 
-/////////////////////    Projects Section  - End ///////////////////////////////
+/////////////////////  ^^^^^^^^^^^^^  Projects Section  - End ^^^^^^^^^ ///////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////
+/////////////////////    Resume Section  - Start  /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+bot.command("resume", (ctx, next) => {
+
+    let doc_msg = "📄 Here's my resume—detailed with my skills, experience, and qualifications. Take a look and explore my professional journey! 🚀";
+    let doc_link = "https://ashutosh-pawar.me/ASHUTOSH's_RESUME.pdf";
+
+    bot.telegram.sendDocument(ctx.chat.id, doc_link, { caption: doc_msg, parse_mode: 'Markdown' });
+});
+
+///////////////////// ^^^^^^ Resume Section  - End ^^^^^^  /////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////
+/////////////////////    Skills Section  - Start  /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+bot.hears("/skills", (ctx, next) => {
+
+    const skillsList = [
+        '🌐 *Front-end:*  HTML, CSS, JavaScript',
+        '💻 *Frameworks:*  ReactJS',
+        '📱 *Responsive design*',
+        '⚙️ *Back-end:*  PHP, NodeJS, REST API, Java',
+        '🗃️ *Databases:*  MySQL, MongoDB',
+        '🔗 *Version control:*  Git, GitHub',
+        '🎨 *UI/UX design*'
+    ];
+
+
+    const skillsCaption = '*Here are some of my skills:*';
+    const lastmsg = `Currently I'm learning *TypeScript*, *Solidity* and *Angular*`
+    const skillsText = skillsList.join('\n');
+
+    const message = `${skillsCaption}\n\n${skillsText}\n\n${lastmsg}`;
+
+    bot.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
+    
+
+});
+///////////////////// ^^^^^^ Skills Section  - End ^^^^^^  /////////////////////////////////
+
 
 bot.on("contact", async (ctx) => {
 
