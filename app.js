@@ -192,7 +192,7 @@ bot.hears("/skills", (ctx, next) => {
 
 
     const skillsCaption = '*Here are some of my skills:*';
-    const lastmsg = `Currently I'm learning *TypeScript*, *Solidity* and *Angular*`
+    const lastmsg = `Currently I'm learning _TypeScript_, _Solidity_ and _Angular_`
     const skillsText = skillsList.join('\n');
 
     const message = `${skillsCaption}\n\n${skillsText}\n\n${lastmsg}`;
@@ -315,21 +315,21 @@ bot.hears("/location", async (ctx, next) => {
 
 //method to share contact
 bot.hears("/contact", async (ctx, next) => {
-    let contactName = "Gainn Fintech";
-    let contactNumber = "+91 90990999";
+    let contactName = "ASHUTOSH PAWAR";
+    let contactNumber = "+91 9000000009";
     // console.log(ctx.from)
     await bot.telegram.sendContact(ctx.chat.id, contactNumber, contactName);
-    let bot_contact_resp_logs =
-        "bot_reply_to_message_id: " +
-        ctx.message.message_id +
-        "\n{ \n contact_name: " +
-        contactName +
-        "\n contact_number: " +
-        contactNumber +
-        " \n \n}";
+    // let bot_contact_resp_logs =
+    //     "bot_reply_to_message_id: " +
+    //     ctx.message.message_id +
+    //     "\n{ \n contact_name: " +
+    //     contactName +
+    //     "\n contact_number: " +
+    //     contactNumber +
+    //     " \n \n}";
 
     console.log(ctx.message);
-    console.log(bot_contact_resp_logs);
+    // console.log(bot_contact_resp_logs);
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////
