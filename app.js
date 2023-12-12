@@ -4,8 +4,12 @@ const { Telegraf } = require("telegraf");
 require("dotenv").config();
 const responses = require("./helper/responses");
 const router = require("./router");
-const generateProjectTemplate = require('./templates/projectTemplate')
-const projectTemplateDetails = require('./helper/projectDetails')
+const generateProjectTemplate = require("./templates/projectTemplate");
+const projectTemplateDetails = require("./helper/projectDetails");
+const logger = require("./logs/logger");
+const botlogs = require("./helper/botLogs");
+const { formatDate, formatTime } = require("./helper/dateAndTime");
+const e = require("express");
 
 const bot = new Telegraf(process.env.API_KEY);
 
@@ -19,144 +23,207 @@ router.routes();
 ////////////////    Method for invoking start command  - Start //////////////
 /////////////////////////////////////////////////////////////////////////////
 bot.start((ctx) => {
+    try {
+        const start_msg1 =
+            `👋 Hey I'm *ASHUTOSH!* 🤖\n\nI'm here to help you explore my portfolio and answer any questions you might have about my work and skills. Feel free to ask about my projects, skills, contact information, or anything else you'd like to know.` +
+            `\n\n_To get started,_ \n\nyou can try commands like... \n\n/projects - _Know about my projects._ \n/skills - _Know about my skills._ \n/resume - _Download my resume._ \n/contact - _To contact me._ \n\nIf you need assistance, just type _'help'_ or click on /help. Enjoy exploring!`;
 
-    let start_msg1 = `👋 Hey I'm *ASHUTOSH!* 🤖\n\nI'm here to help you explore my portfolio and answer any questions you might have about my work and skills. Feel free to ask about my projects, skills, contact information, or anything else you'd like to know.`
-        + `\n\n_To get started,_ \n\nyou can try commands like... \n\n/projects - _Know about my projects._ \n/skills - _Know about my skills._ \n/resume - _Download my resume._ \n/contact - _To contact me._ \n\nIf you need assistance, just type _'help'_ or click on /help. Enjoy exploring!`;
+        const bot_response = `Bot responded with "/start" template message to ${ctx.message.message_id}`;
+        const formattedDate = formatDate(ctx.message.date);
+        const formattedTime = formatTime(ctx.message.date);
+        try {
+            bot.telegram.sendMessage(ctx.chat.id, start_msg1, {
+                parse_mode: "Markdown",
+            });
 
-    bot.telegram.sendMessage(ctx.chat.id, start_msg1, { parse_mode: 'Markdown' });
-    console.log(ctx.message);
+            const logs = botlogs(
+                ctx.message.message_id,
+                ctx.message.from,
+                ctx.message.text,
+                bot_response,
+                ctx.message.date,
+                formattedDate,
+                formattedTime
+            );
+
+            logger.info(logs)
+        } catch (error) {
+            logger.warn(
+                `Unable to respond to user : ${ctx.message.from.username} and message_id : ${ctx.message.message_id}`
+            );
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 ////////////////    Method for invoking start command  - End //////////////
-
 
 ///////////////////////////////////////////////////////////////////////////////////
 /////////////////////    Projects Section  - Start  ///////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 bot.hears("/projects", async (ctx) => {
-    // console.log(ctx.message);
-    let message = `*👨‍💻 Here are some of my projects 🛠️*\n\nFeel free to ask for more details about any specific project by mentioning its name!`;
-    //ctx.deleteMessage();
-    await bot.telegram.sendMessage(ctx.chat.id, message, {
-        reply_markup: {
-            inline_keyboard: [
-                [
-                    {
-                        text: "Crypto Tracker",
-                        callback_data: "crypto_tracker",
-                    },
-                    {
-                        text: "Netflix Clone",
-                        callback_data: "netflix_clone",
-                    },
-                    {
-                        text: "Whatsapp Bot",
-                        callback_data: "whatsapp_bot",
-                    },
-                ],
-                [
-                    {
-                        text: "Warehouse Inventory",
-                        callback_data: "warehouse_inventory",
-                    },
-                ],
-                [
-                    {
-                        text: "Telegram Bot",
-                        callback_data: "telegram_bot",
-                    },
-                    {
-                        text: "Hope Harbor",
-                        callback_data: "hope_harbor",
-                    },
-                    {
-                        text: "Blog Website",
-                        callback_data: "blog_site",
-                    },
-                ],
-            ],
-        },
-        reply_to_message_id: ctx.message.message_id,
-        parse_mode: 'Markdown'
-    });
+    try {
+        let message = `*👨‍💻 Here are some of my projects 🛠️*\n\nFeel free to ask for more details about any specific project by mentioning its name!`;
+
+        const bot_response = `Bot responded with "/projects" template message to ${ctx.message.message_id}`;
+        const formattedDate = formatDate(ctx.message.date);
+        const formattedTime = formatTime(ctx.message.date);
+
+        try {
+            await bot.telegram.sendMessage(ctx.chat.id, message, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                text: "Crypto Tracker",
+                                callback_data: "crypto_tracker",
+                            },
+                            {
+                                text: "Netflix Clone",
+                                callback_data: "netflix_clone",
+                            },
+                            {
+                                text: "Whatsapp Bot",
+                                callback_data: "whatsapp_bot",
+                            },
+                        ],
+                        [
+                            {
+                                text: "Warehouse Inventory",
+                                callback_data: "warehouse_inventory",
+                            },
+                        ],
+                        [
+                            {
+                                text: "Telegram Bot",
+                                callback_data: "telegram_bot",
+                            },
+                            {
+                                text: "Hope Harbor",
+                                callback_data: "hope_harbor",
+                            },
+                            {
+                                text: "Blog Website",
+                                callback_data: "blog_site",
+                            },
+                        ],
+                    ],
+                },
+                reply_to_message_id: ctx.message.message_id,
+                parse_mode: "Markdown",
+            });
+
+            const logs = botlogs(
+                ctx.message.message_id,
+                ctx.message.from,
+                ctx.message.text,
+                bot_response,
+                ctx.message.date,
+                formattedDate,
+                formattedTime
+            );
+
+            logger.info(logs)
+        } catch (error) {
+            logger.warn(`Unable to respond to user : ${ctx.message.from.username} and message_id : ${ctx.message.message_id}`)
+        }
+    } catch (error) {
+        console.log(error)
+    }
 });
 
 bot.action("crypto_tracker", async (ctx) => {
-
     // Data for the template
-    const templateData = projectTemplateDetails.crypto_tracker
+    const templateData = projectTemplateDetails.crypto_tracker;
 
     // Generate message using the template
-    const message = generateProjectTemplate(templateData)
+    const message = generateProjectTemplate(templateData);
 
     // ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
+    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+        caption: message,
+        parse_mode: "Markdown",
+    });
 });
 
 bot.action("netflix_clone", async (ctx) => {
-
     // Data for the template
-    const templateData = projectTemplateDetails.netflix_clone
+    const templateData = projectTemplateDetails.netflix_clone;
 
     // Generate message using the template
-    const message = generateProjectTemplate(templateData)
+    const message = generateProjectTemplate(templateData);
 
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
+    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+        caption: message,
+        parse_mode: "Markdown",
+    });
 });
 
 bot.action("whatsapp_bot", async (ctx) => {
-
     // Data for the template
-    const templateData = projectTemplateDetails.whatsapp_bot
+    const templateData = projectTemplateDetails.whatsapp_bot;
 
     // Generate message using the template
-    const message = generateProjectTemplate(templateData)
+    const message = generateProjectTemplate(templateData);
 
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
+    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+        caption: message,
+        parse_mode: "Markdown",
+    });
 });
 
 bot.action("warehouse_inventory", async (ctx) => {
-
     // Data for the template
-    const templateData = projectTemplateDetails.warehouse_inventory
+    const templateData = projectTemplateDetails.warehouse_inventory;
 
     // Generate message using the template
-    const message = generateProjectTemplate(templateData)
+    const message = generateProjectTemplate(templateData);
 
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
+    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+        caption: message,
+        parse_mode: "Markdown",
+    });
 });
 
 bot.action("telegram_bot", async (ctx) => {
-
     // Data for the template
-    const templateData = projectTemplateDetails.telegram_bot
+    const templateData = projectTemplateDetails.telegram_bot;
 
     // Generate message using the template
-    const message = generateProjectTemplate(templateData)
+    const message = generateProjectTemplate(templateData);
 
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
-})
+    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+        caption: message,
+        parse_mode: "Markdown",
+    });
+});
 
 bot.action("hope_harbor", async (ctx) => {
-
     // Data for the template
-    const templateData = projectTemplateDetails.hope_harbor
+    const templateData = projectTemplateDetails.hope_harbor;
 
     // Generate message using the template
-    const message = generateProjectTemplate(templateData)
+    const message = generateProjectTemplate(templateData);
 
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
+    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+        caption: message,
+        parse_mode: "Markdown",
+    });
 });
 
 bot.action("blog_site", async (ctx) => {
-
     // Data for the template
-    const templateData = projectTemplateDetails.blog_site
+    const templateData = projectTemplateDetails.blog_site;
 
     // Generate message using the template
-    const message = generateProjectTemplate(templateData)
+    const message = generateProjectTemplate(templateData);
 
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, { caption: message, parse_mode: 'Markdown' });
+    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+        caption: message,
+        parse_mode: "Markdown",
+    });
 });
 
 /////////////////////  ^^^^^^^^^^^^^  Projects Section  - End ^^^^^^^^^ ///////////////////////////////
@@ -166,11 +233,14 @@ bot.action("blog_site", async (ctx) => {
 ///////////////////////////////////////////////////////////////////////////////////
 
 bot.command("resume", (ctx, next) => {
-
-    let doc_msg = "📄 Here's my resume—detailed with my skills, experience, and qualifications. Take a look and explore my professional journey! 🚀";
+    let doc_msg =
+        "📄 Here's my resume—detailed with my skills, experience, and qualifications. Take a look and explore my professional journey! 🚀";
     let doc_link = "https://ashutosh-pawar.me/ASHUTOSH's_RESUME.pdf";
 
-    bot.telegram.sendDocument(ctx.chat.id, doc_link, { caption: doc_msg, parse_mode: 'Markdown' });
+    bot.telegram.sendDocument(ctx.chat.id, doc_link, {
+        caption: doc_msg,
+        parse_mode: "Markdown",
+    });
 });
 
 ///////////////////// ^^^^^^ Resume Section  - End ^^^^^^  /////////////////////////////////
@@ -179,33 +249,27 @@ bot.command("resume", (ctx, next) => {
 /////////////////////    Skills Section  - Start  /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 bot.hears("/skills", (ctx, next) => {
-
     const skillsList = [
-        '🌐 *Front-end:*  HTML, CSS, JavaScript',
-        '💻 *Frameworks:*  ReactJS',
-        '📱 *Responsive design*',
-        '⚙️ *Back-end:*  PHP, NodeJS, REST API, Java',
-        '🗃️ *Databases:*  MySQL, MongoDB',
-        '🔗 *Version control:*  Git, GitHub',
-        '🎨 *UI/UX design*'
+        "🌐 *Front-end:*  HTML, CSS, JavaScript",
+        "💻 *Frameworks:*  ReactJS",
+        "📱 *Responsive design*",
+        "⚙️ *Back-end:*  PHP, NodeJS, REST API, Java",
+        "🗃️ *Databases:*  MySQL, MongoDB",
+        "🔗 *Version control:*  Git, GitHub",
+        "🎨 *UI/UX design*",
     ];
 
-
-    const skillsCaption = '*Here are some of my skills:*';
-    const lastmsg = `Currently I'm learning _TypeScript_, _Solidity_ and _Angular_`
-    const skillsText = skillsList.join('\n');
+    const skillsCaption = "*Here are some of my skills:*";
+    const lastmsg = `Currently I'm learning _TypeScript_, _Solidity_ and _Angular_`;
+    const skillsText = skillsList.join("\n");
 
     const message = `${skillsCaption}\n\n${skillsText}\n\n${lastmsg}`;
 
-    bot.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
-    
-
+    bot.telegram.sendMessage(ctx.chat.id, message, { parse_mode: "Markdown" });
 });
 ///////////////////// ^^^^^^ Skills Section  - End ^^^^^^  /////////////////////////////////
 
-
 bot.on("contact", async (ctx) => {
-
     const phoneNumber = ctx.message.contact.phone_number;
     await ctx.reply(`Thanks for sharing your phone number! ${phoneNumber}`);
     console.log(phoneNumber);
@@ -245,12 +309,10 @@ bot.hears("/document", async (ctx, next) => {
     console.log(bot_doc_resp_logs);
 });
 
-
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //method for sending image
 bot.hears("/image", async (ctx, next) => {
-
     let img_msg = "This is for image";
     let img_link =
         "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
@@ -273,7 +335,6 @@ bot.hears("/image", async (ctx, next) => {
 
 //method for sending location
 bot.hears("/location", async (ctx, next) => {
-
     let location_msg = "Office Location";
     let latitude = 19.11650922426617;
     let longitude = 72.85741558019201;
@@ -305,7 +366,6 @@ bot.hears("/location", async (ctx, next) => {
 //     let vdo_link = "https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/kx2d2Jf/extreme-close-up-view-of-clock-at-the-last-3-seconds-to-midnight_ejojcmqf__cf53370888a04095fe9a9410b8099739__P360.mp4";
 //     await bot.telegram.sendVideo(ctx.chat.id, vdo_link);
 //     let bot_vdo_resp_logs ="bot_reply_to_message_id: " + ctx.message.message_id + "\n{ \n vdo_msg: " + vdo_msg + "\n vdo_link: " + vdo_link + " \n \n}";
-
 
 //     console.log(ctx.message);
 //     console.log(bot_vdo_resp_logs);
@@ -352,9 +412,6 @@ bot.hears("/help", async (ctx) => {
             ],
         },
     });
-
-
-
 
     console.log(ctx.message);
 });
