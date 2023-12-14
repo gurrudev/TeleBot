@@ -31,27 +31,22 @@ bot.start((ctx) => {
         const bot_response = `Bot responded with "/start" template message to ${ctx.message.message_id}`;
         const formattedDate = formatDate(ctx.message.date);
         const formattedTime = formatTime(ctx.message.date);
-        try {
-            bot.telegram.sendMessage(ctx.chat.id, start_msg1, {
-                parse_mode: "Markdown",
-            });
+        // try {
+        bot.telegram.sendMessage(ctx.chat.id, start_msg1, {
+            parse_mode: "Markdown",
+        });
 
-            const logs = botlogs(
-                ctx.message.message_id,
-                ctx.message.from,
-                ctx.message.text,
-                bot_response,
-                ctx.message.date,
-                formattedDate,
-                formattedTime
-            );
+        const logs = botlogs(
+            ctx.message.message_id,
+            ctx.message.from,
+            ctx.message.text,
+            bot_response,
+            ctx.message.date,
+            formattedDate,
+            formattedTime
+        );
 
-            logger.info(logs)
-        } catch (error) {
-            logger.warn(
-                `Unable to respond to user : ${ctx.message.from.username} and message_id : ${ctx.message.message_id}`
-            );
-        }
+        logger.info(logs)
 
     } catch (error) {
         console.log(error);
@@ -71,160 +66,237 @@ bot.hears("/projects", async (ctx) => {
         const formattedDate = formatDate(ctx.message.date);
         const formattedTime = formatTime(ctx.message.date);
 
-        try {
-            await bot.telegram.sendMessage(ctx.chat.id, message, {
-                reply_markup: {
-                    inline_keyboard: [
-                        [
-                            {
-                                text: "Crypto Tracker",
-                                callback_data: "crypto_tracker",
-                            },
-                            {
-                                text: "Netflix Clone",
-                                callback_data: "netflix_clone",
-                            },
-                            {
-                                text: "Whatsapp Bot",
-                                callback_data: "whatsapp_bot",
-                            },
-                        ],
-                        [
-                            {
-                                text: "Warehouse Inventory",
-                                callback_data: "warehouse_inventory",
-                            },
-                        ],
-                        [
-                            {
-                                text: "Telegram Bot",
-                                callback_data: "telegram_bot",
-                            },
-                            {
-                                text: "Hope Harbor",
-                                callback_data: "hope_harbor",
-                            },
-                            {
-                                text: "Blog Website",
-                                callback_data: "blog_site",
-                            },
-                        ],
+        await bot.telegram.sendMessage(ctx.chat.id, message, {
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        {
+                            text: "Crypto Tracker",
+                            callback_data: "crypto_tracker",
+                        },
+                        {
+                            text: "Netflix Clone",
+                            callback_data: "netflix_clone",
+                        },
+                        {
+                            text: "Whatsapp Bot",
+                            callback_data: "whatsapp_bot",
+                        },
                     ],
-                },
-                reply_to_message_id: ctx.message.message_id,
-                parse_mode: "Markdown",
-            });
+                    [
+                        {
+                            text: "Warehouse Inventory",
+                            callback_data: "warehouse_inventory",
+                        },
+                    ],
+                    [
+                        {
+                            text: "Telegram Bot",
+                            callback_data: "telegram_bot",
+                        },
+                        {
+                            text: "Hope Harbor",
+                            callback_data: "hope_harbor",
+                        },
+                        {
+                            text: "Blog Website",
+                            callback_data: "blog_site",
+                        },
+                    ],
+                ],
+            },
+            reply_to_message_id: ctx.message.message_id,
+            parse_mode: "Markdown",
+        });
 
-            const logs = botlogs(
-                ctx.message.message_id,
-                ctx.message.from,
-                ctx.message.text,
-                bot_response,
-                ctx.message.date,
-                formattedDate,
-                formattedTime
-            );
+        const logs = botlogs(
+            ctx.message.message_id,
+            ctx.message.from,
+            ctx.message.text,
+            bot_response,
+            ctx.message.date,
+            formattedDate,
+            formattedTime
+        );
 
-            logger.info(logs)
-        } catch (error) {
-            logger.warn(`Unable to respond to user : ${ctx.message.from.username} and message_id : ${ctx.message.message_id}`)
-        }
+        logger.info(logs)
     } catch (error) {
         console.log(error)
     }
 });
 
-bot.action("crypto_tracker", async (ctx) => {
-    // Data for the template
-    const templateData = projectTemplateDetails.crypto_tracker;
 
-    // Generate message using the template
-    const message = generateProjectTemplate(templateData);
+projectTemplateDetails.forEach(project => {
+    // Accessing the first property name and printing its title
+    const project_title = Object.keys(project)[0];
+    const project_data = project[project_title];
+    // console.log(project_data); // Printing the first word of the title
 
-    // ctx.telegram.sendMessage(ctx.chat.id, message, { parse_mode: 'Markdown' });
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
-        caption: message,
-        parse_mode: "Markdown",
+    bot.action(project_title, async (ctx) => {
+        try {
+            // Data for the template
+            const templateData = project_data;
+            const bot_response = `Bot responded to the "callback_query: data {${project_title}}" with "${project_title}" template message to ${ctx.update.callback_query.message.message_id}`;
+            const formattedDate = formatDate(ctx.update.callback_query.message.date);
+            const formattedTime = formatTime(ctx.update.callback_query.message.date);
+
+            // Generate message using the template
+            const message = generateProjectTemplate(templateData);
+
+            const logs = botlogs(
+                ctx.update.callback_query.message.message_id,
+                ctx.update.callback_query.from,
+                ctx.update.callback_query.data,
+                bot_response,
+                ctx.update.callback_query.message.date,
+                formattedDate,
+                formattedTime
+            );
+
+            ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+                caption: message,
+                parse_mode: "Markdown",
+            });
+
+            logger.info(logs)
+            // console.log(logs)
+        } catch (error) {
+            console.log(error)
+        }
     });
 });
 
-bot.action("netflix_clone", async (ctx) => {
-    // Data for the template
-    const templateData = projectTemplateDetails.netflix_clone;
 
-    // Generate message using the template
-    const message = generateProjectTemplate(templateData);
+// bot.action("crypto_tracker", async (ctx) => {
+//     try {
+//         // Data for the template
+//         const templateData = projectTemplateDetails.crypto_tracker;
+//         const bot_response = `Bot responded to the "callback_query: data {crypto_tracker}" with "crypto_tracker" template message to ${ctx.update.callback_query.message.message_id}`;
+//         const formattedDate = formatDate(ctx.update.callback_query.message.date);
+//         const formattedTime = formatTime(ctx.update.callback_query.message.date);
 
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
-        caption: message,
-        parse_mode: "Markdown",
-    });
-});
+//         // Generate message using the template
+//         const message = generateProjectTemplate(templateData);
 
-bot.action("whatsapp_bot", async (ctx) => {
-    // Data for the template
-    const templateData = projectTemplateDetails.whatsapp_bot;
+//         const logs = botlogs(
+//             ctx.update.callback_query.message.message_id,
+//             ctx.update.callback_query.from,
+//             ctx.update.callback_query.data,
+//             bot_response,
+//             ctx.update.callback_query.message.date,
+//             formattedDate,
+//             formattedTime
+//         );
 
-    // Generate message using the template
-    const message = generateProjectTemplate(templateData);
+//         ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+//             caption: message,
+//             parse_mode: "Markdown",
+//         });
 
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
-        caption: message,
-        parse_mode: "Markdown",
-    });
-});
+//         logger.info(logs)
+//     } catch (error) {
+//         console.log(error)
+//     }
+// });
 
-bot.action("warehouse_inventory", async (ctx) => {
-    // Data for the template
-    const templateData = projectTemplateDetails.warehouse_inventory;
+// bot.action("netflix_clone", async (ctx) => {
+//     try {
+//         // Data for the template
+//         const templateData = projectTemplateDetails.netflix_clone;
+//         const bot_response = `Bot responded to the "callback_query: data {netflix_clone}" with "netflix_clone" template message to ${ctx.update.callback_query.message.message_id}`;
+//         const formattedDate = formatDate(ctx.update.callback_query.message.date);
+//         const formattedTime = formatTime(ctx.update.callback_query.message.date);
 
-    // Generate message using the template
-    const message = generateProjectTemplate(templateData);
+//         // Generate message using the template
+//         const message = generateProjectTemplate(templateData);
 
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
-        caption: message,
-        parse_mode: "Markdown",
-    });
-});
+//         ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+//             caption: message,
+//             parse_mode: "Markdown",
+//         });
 
-bot.action("telegram_bot", async (ctx) => {
-    // Data for the template
-    const templateData = projectTemplateDetails.telegram_bot;
+//         const logs = botlogs(
+//             ctx.update.callback_query.message.message_id,
+//             ctx.update.callback_query.from,
+//             ctx.update.callback_query.data,
+//             bot_response,
+//             ctx.update.callback_query.message.date,
+//             formattedDate,
+//             formattedTime
+//         );
 
-    // Generate message using the template
-    const message = generateProjectTemplate(templateData);
+//         logger.info(logs)
 
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
-        caption: message,
-        parse_mode: "Markdown",
-    });
-});
+//     } catch (error) {
+//         console.log(error)
+//     }
 
-bot.action("hope_harbor", async (ctx) => {
-    // Data for the template
-    const templateData = projectTemplateDetails.hope_harbor;
+// });
 
-    // Generate message using the template
-    const message = generateProjectTemplate(templateData);
+// bot.action("whatsapp_bot", async (ctx) => {
+//     // Data for the template
+//     const templateData = projectTemplateDetails.whatsapp_bot;
 
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
-        caption: message,
-        parse_mode: "Markdown",
-    });
-});
+//     // Generate message using the template
+//     const message = generateProjectTemplate(templateData);
 
-bot.action("blog_site", async (ctx) => {
-    // Data for the template
-    const templateData = projectTemplateDetails.blog_site;
+//     ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+//         caption: message,
+//         parse_mode: "Markdown",
+//     });
+// });
 
-    // Generate message using the template
-    const message = generateProjectTemplate(templateData);
+// bot.action("warehouse_inventory", async (ctx) => {
+//     // Data for the template
+//     const templateData = projectTemplateDetails.warehouse_inventory;
 
-    ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
-        caption: message,
-        parse_mode: "Markdown",
-    });
-});
+//     // Generate message using the template
+//     const message = generateProjectTemplate(templateData);
+
+//     ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+//         caption: message,
+//         parse_mode: "Markdown",
+//     });
+// });
+
+// bot.action("telegram_bot", async (ctx) => {
+//     // Data for the template
+//     const templateData = projectTemplateDetails.telegram_bot;
+
+//     // Generate message using the template
+//     const message = generateProjectTemplate(templateData);
+
+//     ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+//         caption: message,
+//         parse_mode: "Markdown",
+//     });
+// });
+
+// bot.action("hope_harbor", async (ctx) => {
+//     // Data for the template
+//     const templateData = projectTemplateDetails.hope_harbor;
+
+//     // Generate message using the template
+//     const message = generateProjectTemplate(templateData);
+
+//     ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+//         caption: message,
+//         parse_mode: "Markdown",
+//     });
+// });
+
+// bot.action("blog_site", async (ctx) => {
+//     // Data for the template
+//     const templateData = projectTemplateDetails.blog_site;
+
+//     // Generate message using the template
+//     const message = generateProjectTemplate(templateData);
+
+//     ctx.telegram.sendPhoto(ctx.chat.id, templateData.img_link, {
+//         caption: message,
+//         parse_mode: "Markdown",
+//     });
+// });
 
 /////////////////////  ^^^^^^^^^^^^^  Projects Section  - End ^^^^^^^^^ ///////////////////////////////
 
