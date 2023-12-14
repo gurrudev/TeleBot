@@ -136,7 +136,7 @@ projectTemplateDetails.map(project => {
         try {
             // Data for the template
             const templateData = project_data;
-            const bot_response = `Bot responded to the "callback_query: data {${project_title}}" with "${project_title}" template message to ${ctx.update.callback_query.message.message_id}`;
+            const bot_response = `Bot responded to the "callback_query: data {${project_title}}" with "${project_title}" template message to message_id : ${ctx.update.callback_query.message.message_id}`;
             const formattedDate = formatDate(ctx.update.callback_query.message.date);
             const formattedTime = formatTime(ctx.update.callback_query.message.date);
 
