@@ -9,7 +9,6 @@ const projectTemplateDetails = require("./helper/projectDetails");
 const logger = require("./logs/logger");
 const botlogs = require("./helper/botLogs");
 const { formatDate, formatTime } = require("./helper/dateAndTime");
-const e = require("express");
 
 const bot = new Telegraf(process.env.API_KEY);
 
