@@ -19,9 +19,7 @@ app.use(bodyParser.json());
 
 router.routes();
 
-/////////////////////////////////////////////////////////////////////////////
 ////////////////    Method for invoking start command  - Start //////////////
-/////////////////////////////////////////////////////////////////////////////
 bot.start((ctx) => {
     try {
         const start_msg1 =
@@ -52,12 +50,9 @@ bot.start((ctx) => {
         console.log(error);
     }
 });
-
 ////////////////    Method for invoking start command  - End //////////////
 
-///////////////////////////////////////////////////////////////////////////////////
 /////////////////////    Projects Section  - Start  ///////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////
 bot.hears("/projects", async (ctx) => {
     try {
         let message = `*👨‍💻 Here are some of my projects 🛠️*\n\nFeel free to ask for more details about any specific project by mentioning its name!`;
@@ -125,7 +120,6 @@ bot.hears("/projects", async (ctx) => {
     }
 });
 
-
 projectTemplateDetails.map(project => {
     // Accessing the first property name and printing its title
     const project_title = Object.keys(project)[0];
@@ -165,8 +159,9 @@ projectTemplateDetails.map(project => {
         }
     });
 });
+/////////////////////    Projects Section  - End  ///////////////////////////////
 
-
+/////////////////////    Resume Section  - Start  ///////////////////////////////
 bot.command("resume", (ctx, next) => {
     let doc_msg =
         "📄 Here's my resume—detailed with my skills, experience, and qualifications. Take a look and explore my professional journey! 🚀";
@@ -177,12 +172,9 @@ bot.command("resume", (ctx, next) => {
         parse_mode: "Markdown",
     });
 });
+/////////////////////    Resume Section  - end  ///////////////////////////////
 
-///////////////////// ^^^^^^ Resume Section  - End ^^^^^^  /////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////////
 /////////////////////    Skills Section  - Start  /////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////
 bot.hears("/skills", (ctx, next) => {
     const skillsList = [
         "🌐 *Front-end:*  HTML, CSS, JavaScript",
@@ -202,96 +194,34 @@ bot.hears("/skills", (ctx, next) => {
 
     bot.telegram.sendMessage(ctx.chat.id, message, { parse_mode: "Markdown" });
 });
-///////////////////// ^^^^^^ Skills Section  - End ^^^^^^  /////////////////////////////////
-
-bot.on("contact", async (ctx) => {
-    const phoneNumber = ctx.message.contact.phone_number;
-    await ctx.reply(`Thanks for sharing your phone number! ${phoneNumber}`);
-    console.log(phoneNumber);
-});
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-//method for sending document in pdf format
-bot.hears("/document", async (ctx, next) => {
-    // const timeout = 1 * 60 * 1000;
-
-    // const timer = setTimeout(() => {
-    //       timeover=1;
-    // }, timeout);
-
-    // if (timeover==1) {
-
-    //     ctx.reply("Your session has expired. Please start a new session using the /start command.");
-    //     return;
-    // }
-
-    let doc_msg = "Please find attached document";
-    let doc_link = "https://www.orimi.com/pdf-test.pdf";
-    await bot.telegram.sendMessage(ctx.chat.id, doc_msg);
-    await bot.telegram.sendDocument(ctx.chat.id, doc_link);
-    let bot_doc_resp_logs =
-        "bot_reply_to_message_id: " +
-        ctx.message.message_id +
-        "\n{ \n doc_msg: " +
-        doc_msg +
-        "\n doc_link: " +
-        doc_link +
-        " \n \n}";
-    // logger.info(ctx.message);
-    // logger.info(bot_doc_resp_logs);
-    console.log(ctx.message);
-    console.log(bot_doc_resp_logs);
-});
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-//method for sending image
-bot.hears("/image", async (ctx, next) => {
-    let img_msg = "This is for image";
-    let img_link =
-        "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
-    await bot.telegram.sendMessage(ctx.chat.id, img_msg);
-    await bot.telegram.sendPhoto(ctx.chat.id, img_link);
-    let bot_img_resp_logs =
-        "bot_reply_to_message_id: " +
-        ctx.message.message_id +
-        "\n{ \n img_msg: " +
-        img_msg +
-        "\n img_link: " +
-        img_link +
-        " \n \n}";
-
-    console.log(ctx.message);
-    console.log(bot_img_resp_logs);
-});
+/////////////////////    Skills Section  - End     /////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //method for sending location
-bot.hears("/location", async (ctx, next) => {
-    let location_msg = "Office Location";
-    let latitude = 19.11650922426617;
-    let longitude = 72.85741558019201;
-    await bot.telegram.sendMessage(ctx.chat.id, location_msg);
-    await bot.telegram.sendLocation(ctx.chat.id, latitude, longitude);
-    let bot_location_resp_logs =
-        "bot_reply_to_message_id: " +
-        ctx.message.message_id +
-        "\n{ \n" +
-        " location_msg: " +
-        location_msg +
-        "\n latitude: " +
-        latitude +
-        "\n longitude: " +
-        longitude +
-        " \n \n}";
+// bot.hears("/location", async (ctx, next) => {
+//     let location_msg = "Office Location";
+//     let latitude = 19.11650922426617;
+//     let longitude = 72.85741558019201;
+//     await bot.telegram.sendMessage(ctx.chat.id, location_msg);
+//     await bot.telegram.sendLocation(ctx.chat.id, latitude, longitude);
+//     let bot_location_resp_logs =
+//         "bot_reply_to_message_id: " +
+//         ctx.message.message_id +
+//         "\n{ \n" +
+//         " location_msg: " +
+//         location_msg +
+//         "\n latitude: " +
+//         latitude +
+//         "\n longitude: " +
+//         longitude +
+//         " \n \n}";
 
-    // logger.info(ctx.message);
-    // logger.info(bot_location_resp_logs);
-    console.log(ctx.message);
-    console.log(bot_location_resp_logs);
-});
+//     // logger.info(ctx.message);
+//     // logger.info(bot_location_resp_logs);
+//     console.log(ctx.message);
+//     console.log(bot_location_resp_logs);
+// });
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -309,25 +239,18 @@ bot.hears("/location", async (ctx, next) => {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //method to share contact
-bot.hears("/contact", async (ctx, next) => {
-    let contactName = "ASHUTOSH PAWAR";
-    let contactNumber = "+91 9000000009";
-    // console.log(ctx.from)
-    await bot.telegram.sendContact(ctx.chat.id, contactNumber, contactName);
-    // let bot_contact_resp_logs =
-    //     "bot_reply_to_message_id: " +
-    //     ctx.message.message_id +
-    //     "\n{ \n contact_name: " +
-    //     contactName +
-    //     "\n contact_number: " +
-    //     contactNumber +
-    //     " \n \n}";
+// bot.hears("/contact", async (ctx, next) => {
+//     let contactName = "ASHUTOSH PAWAR";
+//     let contactNumber = "+91 9000000009";
+//     // console.log(ctx.from)
+//     await bot.telegram.sendContact(ctx.chat.id, contactNumber, contactName);
 
-    console.log(ctx.message);
-    // console.log(bot_contact_resp_logs);
-});
+//     console.log(ctx.message);
 
-////////////////////////////////////////////////////////////////////////////////////////
+// });
+
+
+////////////////////////////   Help Section - Start   /////////////////////////////////////////
 
 //method for help
 bot.hears("/help", async (ctx) => {
@@ -347,106 +270,12 @@ bot.hears("/help", async (ctx) => {
             ],
         },
     });
-
+    
     console.log(ctx.message);
 });
+////////////////////////////   Help Section - End   /////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////////////////
-
-// // method for requesting user's location
-// bot.hears("location", async(ctx) => {
-//     // console.log(ctx.from)
-//    await bot.telegram.sendMessage(ctx.chat.id,"Can we access your location?",requestLocationKeyboard);
-//     console.log(ctx.message);
-// });
-
-// //Object for providing location to the bot
-// const requestLocationKeyboard = {
-//     reply_markup: {
-//         one_time_keyboard: true,
-//         keyboard: [
-//             [
-//                 {
-//                     text: "Share My Location",
-//                     request_location: true,
-//                     one_time_keyboard: true,
-//                     remove_keyboard: true,
-//                 },
-//             ],
-//         ],
-//         resize_keyboard: true,
-//     },
-// };
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-// bot.hears("/animals", async (ctx) => {
-//     console.log(ctx.message);
-//     let animalMessage = `great, here are pictures of animals you would love`;
-//     //ctx.deleteMessage();
-//     await bot.telegram.sendMessage(ctx.chat.id, animalMessage, {
-//         reply_markup: {
-//             inline_keyboard: [
-//                 [
-//                     {
-//                         text: "Dog",
-//                         callback_data: "dog",
-//                     },
-//                     {
-//                         text: "Cat",
-//                         callback_data: "cat",
-//                     },
-//                     {
-//                         text: "Elephent",
-//                         callback_data: "elephent",
-//                     },
-//                 ],
-//                 [
-//                     {
-//                         text: "Dragon",
-//                         callback_data: "dragon",
-//                     },
-//                 ],
-//                 [
-//                     {
-//                         text: "Horse",
-//                         callback_data: "horse",
-//                     },
-//                     {
-//                         text: "Tiger",
-//                         callback_data: "tiger",
-//                     },
-//                     {
-//                         text: "Wolf",
-//                         callback_data: "wolf",
-//                     },
-//                 ],
-//             ],
-//         },
-//     });
-// });
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-//method that returns image of a dog
-// bot.action("dog", async (ctx) => {
-//     let img_link =
-//         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXb8yPHcfghL4AazIhs0EQv7oqhMwwDITj_NCQHkeKRzfcH3bhA_gEyBu6sNxGIHNHXI&usqp=CAU";
-
-//     await bot.telegram.sendPhoto(ctx.chat.id, img_link);
-// });
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-//method that returns image of a cat
-bot.action("cat", async (ctx) => {
-    let photo_link =
-        "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
-
-    await bot.telegram.sendPhoto(ctx.chat.id, photo_link);
-});
-
-////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////   Text Section - Start    /////////////////////////////////////
 
 // Middleware for handling text messages
 bot.on("text", (ctx) => {
@@ -469,7 +298,7 @@ bot.on("text", (ctx) => {
         reply_to_message_id: ctx.message.message_id,
     });
 });
-////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////   Text Section - End    ////////////////////////////////////
 
 //method to start the bot
 bot.launch();
