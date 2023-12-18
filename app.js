@@ -43,7 +43,7 @@ bot.start((ctx) => {
             formattedTime
         );
 
-        logger.info(logs)
+        // logger.info(logs)
 
     } catch (error) {
         console.log(error);
@@ -113,7 +113,7 @@ bot.hears("/projects", async (ctx) => {
             formattedTime
         );
 
-        logger.info(logs)
+        // logger.info(logs)
     } catch (error) {
         console.log(error)
     }
@@ -151,8 +151,7 @@ projectTemplateDetails.map(project => {
                 parse_mode: "Markdown",
             });
 
-            logger.info(logs)
-            // console.log(logs)
+            // logger.info(logs)
         } catch (error) {
             console.log(error)
         }
@@ -195,60 +194,6 @@ bot.hears("/skills", (ctx, next) => {
 });
 /////////////////////    Skills Section  - End     /////////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////////////////
-
-//method for sending location
-// bot.hears("/location", async (ctx, next) => {
-//     let location_msg = "Office Location";
-//     let latitude = 19.11650922426617;
-//     let longitude = 72.85741558019201;
-//     await bot.telegram.sendMessage(ctx.chat.id, location_msg);
-//     await bot.telegram.sendLocation(ctx.chat.id, latitude, longitude);
-//     let bot_location_resp_logs =
-//         "bot_reply_to_message_id: " +
-//         ctx.message.message_id +
-//         "\n{ \n" +
-//         " location_msg: " +
-//         location_msg +
-//         "\n latitude: " +
-//         latitude +
-//         "\n longitude: " +
-//         longitude +
-//         " \n \n}";
-
-//     // logger.info(ctx.message);
-//     // logger.info(bot_location_resp_logs);
-//     console.log(ctx.message);
-//     console.log(bot_location_resp_logs);
-// });
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-// bot.hears("/video", async (ctx, next) => {
-//     // console.log(ctx.from)
-//     let vdo_msg = "hello";
-//     let vdo_link = "https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/kx2d2Jf/extreme-close-up-view-of-clock-at-the-last-3-seconds-to-midnight_ejojcmqf__cf53370888a04095fe9a9410b8099739__P360.mp4";
-//     await bot.telegram.sendVideo(ctx.chat.id, vdo_link);
-//     let bot_vdo_resp_logs ="bot_reply_to_message_id: " + ctx.message.message_id + "\n{ \n vdo_msg: " + vdo_msg + "\n vdo_link: " + vdo_link + " \n \n}";
-
-//     console.log(ctx.message);
-//     console.log(bot_vdo_resp_logs);
-// });
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-//method to share contact
-// bot.hears("/contact", async (ctx, next) => {
-//     let contactName = "ASHUTOSH PAWAR";
-//     let contactNumber = "+91 9000000009";
-//     // console.log(ctx.from)
-//     await bot.telegram.sendContact(ctx.chat.id, contactNumber, contactName);
-
-//     console.log(ctx.message);
-
-// });
-
-
 ////////////////////////////   Help Section - Start   /////////////////////////////////////////
 
 //method for help
@@ -270,7 +215,7 @@ bot.hears("/help", async (ctx) => {
         },
     });
     
-    console.log(ctx.message);
+    // console.log(ctx.message);
 });
 ////////////////////////////   Help Section - End   /////////////////////////////////////////
 
